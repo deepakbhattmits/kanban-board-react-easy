@@ -51,7 +51,6 @@ const App = () => {
 	};
 
 	const updateQuantity = (page, product, i) => {
-		console.log(cartItems);
 		if (page !== 'list') {
 			setCartItems({ ...cartItems, [i - 1]: product });
 		}
