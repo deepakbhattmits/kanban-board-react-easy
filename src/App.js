@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import logo from './logo.svg';
 import ProductList from './components/product-list';
@@ -35,22 +35,29 @@ export const PRODUCTS = [
 ];
 
 const App = () => {
-	// constructor() {
-	//     super();
-	const products = [...PRODUCTS].map((product, index) => {
+	const productsMap = [...PRODUCTS].map((product, index) => {
 		product.id = index + 1;
 		product.image = `/images/items/${product.name.toLocaleLowerCase()}.png`;
 		product.cartQuantity = 0;
 		return product;
 	});
+	const [showCart, setShowCart] = useState(false);
 	const [cartItems, setCartItems] = useState([]);
+
+	const [products, setProducts] = useState([]);
 	const addToCart = (product, i) => {
+		setShowCart(true);
 		setCartItems({ ...cartItems, [i]: product });
 	};
 
 	const updateQuantity = (product, i) => {
-		console.log('Update Quantity : ', product);
+		setProducts({ ...products, [i - 1]: product });
+		setCartItems({ ...cartItems, [i - 1]: product });
 	};
+
+	useEffect(() => {
+		setProducts(productsMap);
+	}, []);
 
 	return (
 		<div>
@@ -68,7 +75,11 @@ const App = () => {
 					addToCart={addToCart}
 					updateQuantity={updateQuantity}
 				/>
-				<Cart cart={cartItems} />
+				<Cart
+					cartItems={cartItems}
+					updateQuantity={updateQuantity}
+					renderCart={showCart}
+				/>
 			</div>
 		</div>
 	);
