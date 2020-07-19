@@ -45,6 +45,7 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 										data-testid='btn-quantity-subtract'
 										onClick={(e) => {
 											updateQuantity(
+												'list',
 												{
 													...product,
 													['cartQuantity']:
@@ -67,6 +68,7 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 											const { value } = e.target;
 
 											updateQuantity(
+												'list',
 												{
 													...product,
 													['cartQuantity']: value,
@@ -81,6 +83,7 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 										data-testid='btn-quantity-add'
 										onClick={(e) => {
 											updateQuantity(
+												'list',
 												{
 													...product,
 													['cartQuantity']: product.cartQuantity + 1,
