@@ -1,10 +1,18 @@
 /** @format */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 
-const ProductList = ({ products, addToCart }) => {
+const ProductList = ({ products, addToCart, updateQuantity }) => {
 	const [quantity, setQuantity] = useState({});
+	console.log(quantity);
+	useEffect(() => {
+		const product = products.filter(
+			(el) => (el.cartQuantity = quantity[el.id])
+		);
+		updateQuantity(product, Object.keys(quantity));
+	}, [quantity]);
+
 	return (
 		<div className='layout-row wrap justify-content-center flex-70 app-product-list'>
 			{products.map((product, i) => {
@@ -27,11 +35,12 @@ const ProductList = ({ products, addToCart }) => {
 								<button
 									className='x-small outlined'
 									data-testid='btn-item-add'
+									disabled={!quantity[product.id]}
 									onClick={() => {
 										addToCart(
 											{
 												...product,
-												['cartQuantity']: quantity[product.id],
+												['cartQuantity']: +quantity[product.id],
 											},
 											product.id
 										);
@@ -48,9 +57,9 @@ const ProductList = ({ products, addToCart }) => {
 												setQuantity({
 													...quantity,
 													[product.id]:
-														quantity[product.id] >= 2
-															? quantity[product.id] - 1
-															: quantity[product.id],
+														quantity[product.id] >= 1
+															? +quantity[product.id] - 1
+															: +quantity[product.id],
 												});
 											}
 										}}>
@@ -64,7 +73,7 @@ const ProductList = ({ products, addToCart }) => {
 										value={quantity[product.id] ? quantity[product.id] : 0}
 										onChange={(e) => {
 											const { value } = e.target;
-											setQuantity({ ...quantity, [product.id]: value });
+											setQuantity({ ...quantity, [product.id]: +value });
 										}}
 									/>
 
@@ -75,7 +84,7 @@ const ProductList = ({ products, addToCart }) => {
 											if (quantity[product.id]) {
 												setQuantity({
 													...quantity,
-													[product.id]: quantity[product.id] + 1,
+													[product.id]: +quantity[product.id] + 1,
 												});
 											} else {
 												setQuantity({
