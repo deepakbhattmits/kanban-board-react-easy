@@ -48,7 +48,9 @@ const App = () => {
 		setCartItems({ ...cartItems, [i]: product });
 	};
 
-	const updateQuantity = (product, i) => {};
+	const updateQuantity = (product, i) => {
+		console.log('Update Quantity : ', product);
+	};
 
 	return (
 		<div>
