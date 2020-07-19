@@ -50,9 +50,12 @@ const App = () => {
 		setCartItems({ ...cartItems, [i]: product });
 	};
 
-	const updateQuantity = (product, i) => {
+	const updateQuantity = (page, product, i) => {
+		console.log(cartItems);
+		if (page !== 'list') {
+			setCartItems({ ...cartItems, [i - 1]: product });
+		}
 		setProducts({ ...products, [i - 1]: product });
-		setCartItems({ ...cartItems, [i - 1]: product });
 	};
 
 	useEffect(() => {

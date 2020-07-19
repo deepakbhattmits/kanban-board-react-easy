@@ -30,7 +30,7 @@ const Cart = ({ cartItems, updateQuantity, renderCart }) => {
 							.reverse()
 							.map((cartItem, idx) => {
 								return (
-									cartItem.cartQuantity != 1 && (
+									cartItem.cartQuantity >= 1 && (
 										<tr
 											data-testid={'cart-item-' + idx}
 											key={idx + 1}
@@ -46,9 +46,10 @@ const Cart = ({ cartItems, updateQuantity, renderCart }) => {
 													<button
 														className='x-small icon-only outlined'
 														data-testid='btn-quantity-subtract'
-														disabled={cartItem.cartQuantity <= 1}
+														// disabled={cartItem.cartQuantity <= 1}
 														onClick={(e) => {
 															updateQuantity(
+																'',
 																{
 																	...cartItem,
 																	['cartQuantity']:
@@ -70,6 +71,7 @@ const Cart = ({ cartItems, updateQuantity, renderCart }) => {
 														onChange={(e) => {
 															const { value } = e.target;
 															updateQuantity(
+																'',
 																{
 																	...cartItem,
 																	['cartQuantity']: value,
@@ -84,6 +86,7 @@ const Cart = ({ cartItems, updateQuantity, renderCart }) => {
 														data-testid='btn-quantity-add'
 														onClick={(e) => {
 															updateQuantity(
+																'',
 																{
 																	...cartItem,
 																	['cartQuantity']: cartItem.cartQuantity + 1,
