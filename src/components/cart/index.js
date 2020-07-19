@@ -20,24 +20,26 @@ const Cart = ({ cart }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{Object.values(cart).map((cartItem, idx) => {
-						return (
-							<tr
-								data-testid={'cart-item-' + idx}
-								key={idx + 1}
-								className='slide-up-fade-in'>
-								<td>{idx + 1}.</td>
-								<td className='name' data-testid='cart-item-name'>
-									{cartItem.name}
-								</td>
-								<td
-									className='numeric quantity'
-									data-testid='cart-item-quantity'>
-									{cartItem.cartQuantity}
-								</td>
-							</tr>
-						);
-					})}
+					{Object.values(cart)
+						.reverse()
+						.map((cartItem, idx) => {
+							return (
+								<tr
+									data-testid={'cart-item-' + idx}
+									key={idx + 1}
+									className='slide-up-fade-in'>
+									<td>{idx + 1}.</td>
+									<td className='name' data-testid='cart-item-name'>
+										{cartItem.name}
+									</td>
+									<td
+										className='numeric quantity'
+										data-testid='cart-item-quantity'>
+										{cartItem.cartQuantity}
+									</td>
+								</tr>
+							);
+						})}
 				</tbody>
 			</table>
 		</div>
