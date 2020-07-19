@@ -1,21 +1,12 @@
 /** @format */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 
 const ProductList = ({ products, addToCart, updateQuantity }) => {
-	const [quantity, setQuantity] = useState({});
-	console.log(quantity);
-	useEffect(() => {
-		const product = products.filter(
-			(el) => (el.cartQuantity = quantity[el.id])
-		);
-		updateQuantity(product, Object.keys(quantity));
-	}, [quantity]);
-
 	return (
 		<div className='layout-row wrap justify-content-center flex-70 app-product-list'>
-			{products.map((product, i) => {
+			{Object.values(products).map((product, i) => {
 				return (
 					<section
 						className='w-30'
@@ -35,12 +26,12 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 								<button
 									className='x-small outlined'
 									data-testid='btn-item-add'
-									disabled={!quantity[product.id]}
+									disabled={!product.cartQuantity}
 									onClick={() => {
 										addToCart(
 											{
 												...product,
-												['cartQuantity']: +quantity[product.id],
+												['cartQuantity']: +product.cartQuantity,
 											},
 											product.id
 										);
@@ -53,15 +44,16 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 										className='x-small icon-only outlined'
 										data-testid='btn-quantity-subtract'
 										onClick={(e) => {
-											if (quantity[product.id]) {
-												setQuantity({
-													...quantity,
-													[product.id]:
-														quantity[product.id] >= 1
-															? +quantity[product.id] - 1
-															: +quantity[product.id],
-												});
-											}
+											updateQuantity(
+												{
+													...product,
+													['cartQuantity']:
+														product.cartQuantity >= 1
+															? +product.cartQuantity - 1
+															: +product.cartQuantity,
+												},
+												product.id
+											);
 										}}>
 										<i className='material-icons'>remove</i>
 									</button>
@@ -70,10 +62,17 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 										type='number'
 										className='cart-quantity'
 										data-testid='cart-quantity'
-										value={quantity[product.id] ? quantity[product.id] : 0}
+										value={product.cartQuantity}
 										onChange={(e) => {
 											const { value } = e.target;
-											setQuantity({ ...quantity, [product.id]: +value });
+
+											updateQuantity(
+												{
+													...product,
+													['cartQuantity']: value,
+												},
+												product.id
+											);
 										}}
 									/>
 
@@ -81,17 +80,13 @@ const ProductList = ({ products, addToCart, updateQuantity }) => {
 										className='x-small icon-only outlined'
 										data-testid='btn-quantity-add'
 										onClick={(e) => {
-											if (quantity[product.id]) {
-												setQuantity({
-													...quantity,
-													[product.id]: +quantity[product.id] + 1,
-												});
-											} else {
-												setQuantity({
-													...quantity,
-													[product.id]: 1,
-												});
-											}
+											updateQuantity(
+												{
+													...product,
+													['cartQuantity']: product.cartQuantity + 1,
+												},
+												product.id
+											);
 										}}>
 										<i className='material-icons'>add</i>
 									</button>
