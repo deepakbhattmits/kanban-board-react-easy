@@ -30,71 +30,73 @@ const Cart = ({ cartItems, updateQuantity, renderCart }) => {
 							.reverse()
 							.map((cartItem, idx) => {
 								return (
-									<tr
-										data-testid={'cart-item-' + idx}
-										key={idx + 1}
-										className='slide-up-fade-in'>
-										<td>{idx + 1}.</td>
-										<td className='name' data-testid='cart-item-name'>
-											{cartItem.name}
-										</td>
-										<td
-											className='numeric quantity'
-											data-testid='cart-item-quantity'>
-											{/* {cartItem.cartQuantity} */}
-											<div className='layout-row justify-content-between align-items-center'>
-												<button
-													className='x-small icon-only outlined'
-													data-testid='btn-quantity-subtract'
-													onClick={(e) => {
-														updateQuantity(
-															{
-																...cartItem,
-																['cartQuantity']:
-																	cartItem.cartQuantity >= 1
-																		? +cartItem.cartQuantity - 1
-																		: +cartItem.cartQuantity,
-															},
-															cartItem.id
-														);
-													}}>
-													<i className='material-icons'>remove</i>
-												</button>
+									cartItem.cartQuantity != 1 && (
+										<tr
+											data-testid={'cart-item-' + idx}
+											key={idx + 1}
+											className='slide-up-fade-in'>
+											<td>{idx + 1}.</td>
+											<td className='name' data-testid='cart-item-name'>
+												{cartItem.name}
+											</td>
+											<td
+												className='numeric quantity'
+												data-testid='cart-item-quantity'>
+												<div className='layout-row justify-content-between align-items-center'>
+													<button
+														className='x-small icon-only outlined'
+														data-testid='btn-quantity-subtract'
+														disabled={cartItem.cartQuantity <= 1}
+														onClick={(e) => {
+															updateQuantity(
+																{
+																	...cartItem,
+																	['cartQuantity']:
+																		cartItem.cartQuantity >= 1
+																			? +cartItem.cartQuantity - 1
+																			: +cartItem.cartQuantity,
+																},
+																cartItem.id
+															);
+														}}>
+														<i className='material-icons'>remove</i>
+													</button>
 
-												<input
-													type='number'
-													className='cart-quantity'
-													data-testid='cart-quantity'
-													value={cartItem.cartQuantity}
-													onChange={(e) => {
-														const { value } = e.target;
-														updateQuantity(
-															{
-																...cartItem,
-																['cartQuantity']: value,
-															},
-															cartItem.id
-														);
-													}}
-												/>
+													<input
+														type='number'
+														className='cart-quantity'
+														data-testid='cart-quantity'
+														value={cartItem.cartQuantity}
+														onChange={(e) => {
+															const { value } = e.target;
+															updateQuantity(
+																{
+																	...cartItem,
+																	['cartQuantity']: value,
+																},
+																cartItem.id
+															);
+														}}
+													/>
 
-												<button
-													className='x-small icon-only outlined'
-													data-testid='btn-quantity-add'
-													onClick={(e) => {
-														updateQuantity(
-															{
-																...cartItem,
-																['cartQuantity']: cartItem.cartQuantity + 1,
-															},
-															cartItem.id
-														);
-													}}>
-													<i className='material-icons'>add</i>
-												</button>
-											</div>
-										</td>
-									</tr>
+													<button
+														className='x-small icon-only outlined'
+														data-testid='btn-quantity-add'
+														onClick={(e) => {
+															updateQuantity(
+																{
+																	...cartItem,
+																	['cartQuantity']: cartItem.cartQuantity + 1,
+																},
+																cartItem.id
+															);
+														}}>
+														<i className='material-icons'>add</i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									)
 								);
 							})}
 				</tbody>
