@@ -1,6 +1,6 @@
 /** @format */
 
-import React from 'react';
+// import React from 'react';
 import './index.css';
 
 const Cart = ({ cartItems, updateQuantity, renderCart }) => {
