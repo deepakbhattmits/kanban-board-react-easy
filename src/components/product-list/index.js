@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import './index.css';
 
 const ProductList = ({ products, addToCart, updateQuantity }) => {
